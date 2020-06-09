@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -16,9 +16,18 @@ const App = () => {
   const incrementCount2 = useCallback(() => setCount2(count2 + 1), [count2]);
   const logName = useCallback(() => console.log("Boss"), []);
 
-  functions.add(incrementCount1);
-  functions.add(incrementCount2);
+  // functions.add(incrementCount1);
+  // functions.add(incrementCount2);
   // functions.add(logName);
+
+  //  useMemo allows us to not to recompute the value of a function everytime
+  // whenever the components re renders
+  // so this function is depend on the count1, which means that this function
+  // only recompute value when the count1 value changes.
+  const doSomethingComplicated = useMemo(() => {
+    console.log("I am computing something complex");
+    return ((count1 * 1000) % 12.4) * 51000 - 4000;
+  }, [count1]);
 
   console.log(functions);
   return (
@@ -36,6 +45,7 @@ const App = () => {
         <button className="btn" onClick={logName}>
           Log Name
         </button>
+        ComplexVaue:{doSomethingComplicated}
       </header>
     </div>
   );
