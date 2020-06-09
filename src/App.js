@@ -24,6 +24,7 @@ const App = () => {
   // whenever the components re renders
   // so this function is depend on the count1, which means that this function
   // only recompute value when the count1 value changes.
+  // useMemo used to memorize the output of this function.
   const doSomethingComplicated = useMemo(() => {
     console.log("I am computing something complex");
     return ((count1 * 1000) % 12.4) * 51000 - 4000;
