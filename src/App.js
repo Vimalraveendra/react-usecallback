@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -7,12 +7,18 @@ const functions = new Set();
 const App = () => {
   const [count1, setCount1] = useState(0);
   const [count2, setCount2] = useState(0);
+  //  usecallback hook allows us to memorize a function that we wrap
+  // in it & use the same function if it already exists. it take two
+  // arguments, first argument is a function we want to memorize. The
+  // second argument is an array of dependencies just like our useEffect
+  //The only difference is that this array is mandatory with the usecallback hook.
+  const incrementCount1 = useCallback(() => setCount1(count1 + 1), [count1]);
+  const incrementCount2 = useCallback(() => setCount2(count2 + 1), [count2]);
+  const logName = useCallback(() => console.log("Boss"), []);
 
-  const incrementCount1 = () => setCount1(count1 + 1);
-  const incrementCount2 = () => setCount2(count2 + 1);
-  const logName = () => console.log("Boss");
-
-  functions.add(logName);
+  functions.add(incrementCount1);
+  functions.add(incrementCount2);
+  // functions.add(logName);
 
   console.log(functions);
   return (
