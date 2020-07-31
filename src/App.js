@@ -1,12 +1,14 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, Profiler } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import Person from "./Person.component";
 
 const functions = new Set();
 
 const App = () => {
   const [count1, setCount1] = useState(0);
   const [count2, setCount2] = useState(0);
+  const [person] = useState({ name: "Jose", age: 45 });
   //  usecallback hook allows us to memorize a function that we wrap
   // in it & use the same function if it already exists. it take two
   // arguments, first argument is a function we want to memorize. The
@@ -31,10 +33,26 @@ const App = () => {
   }, [count1]);
 
   console.log(functions);
+
+  // React API Profiler is a component that allows to check how much
+  // time it takes our component to render or mount
+  // for that we need to wrap the component we want to check inside the profiler
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <Profiler
+          id="person"
+          onRender={(id, phase, actualDuration) => {
+            console.log({
+              id,
+              phase,
+              actualDuration,
+            });
+          }}
+        >
+          <Person person={person} />
+        </Profiler>
         Count1:{count1}
         <button className="btn" onClick={incrementCount1}>
           Increase Count1
